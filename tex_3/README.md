@@ -1,10 +1,11 @@
-# FastAPI Security — КР №3
+# FastAPI Security — КР №3 😊
 
 > Система аутентификации и авторизации на FastAPI: JWT-токены, ролевая модель доступа (RBAC) и защита Swagger-документации.
 
 ---
+<img width="1000" height="1000" alt="image" src="https://github.com/user-attachments/assets/07651774-39dc-418b-aa10-13a4186b9fbb" />
 
-## Быстрый старт
+## Быстрый старт ⭐
 
 **Клонировать репозиторий**
 ```bash
@@ -30,14 +31,14 @@ uvicorn main:app --reload
 
 ---
 
-## Примеры запросов
+## Примеры запросов 😍
 
-#### Базовая аутентификация *(Задание 6.1)*
+#### Базовая аутентификация *(Задание 6.1)* 💙
 ```bash
 curl -u admin:secret http://localhost:8000/login-basic        # 200 OK
 curl -u wrong:wrong  http://localhost:8000/login-basic        # 401 Unauthorized
 ```
-#### Регистрация и вход с хешированием *(Задание 6.2)*
+#### Регистрация и вход с хешированием *(Задание 6.2)*  💚
 ```bash
 # Регистрация
 curl -X POST http://localhost:8000/register \
@@ -46,7 +47,7 @@ curl -X POST http://localhost:8000/register \
 # Вход
 curl -u alice:securepass123 http://localhost:8000/login
 ```
-#### JWT-аутентификация *(Задания 6.4–6.5)*
+#### JWT-аутентификация *(Задания 6.4–6.5)* 💗
 ```bash
 # Получить токен
 curl -X POST http://localhost:8000/login-jwt \
@@ -55,7 +56,7 @@ curl -X POST http://localhost:8000/login-jwt \
 # Обратиться к защищённому ресурсу
 curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:8000/protected_resource
 ```
-#### CRUD — задачи Todo *(Задание 8.2)*
+#### CRUD — задачи Todo *(Задание 8.2)* 💜
 ```bash
 # Создать
 curl -X POST http://localhost:8000/todos \
@@ -72,7 +73,7 @@ curl -X PUT http://localhost:8000/todos/1 \
 # Удалить
 curl -X DELETE http://localhost:8000/todos/1
 ```
-#### Ролевой доступ RBAC *(Задание 7.1)*
+#### Ролевой доступ RBAC *(Задание 7.1)* 💕
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN"  http://localhost:8000/user-area    # для всех
 curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8000/admin-panel  # только admin
@@ -80,7 +81,7 @@ curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8000/admin-panel  #
 
 ---
 
-## Документация API
+## Документация API 🎶
 
 Доступна **только в режиме DEV**:
 
@@ -91,7 +92,7 @@ curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8000/admin-panel  #
 
 ---
 
-## Переменные окружения
+## Переменные окружения ✨
 
 | Переменная                        | Значение по умолчанию              | Описание                          |
 |-----------------------------------|------------------------------------|-----------------------------------|
