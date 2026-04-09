@@ -7,10 +7,6 @@
 
 ## Быстрый старт ⭐
 
-**Клонировать репозиторий**
-```bash
-git clone https://github.com/AGUGIs/TRSP_kr3_chelyshev
-```
 **Создать и активировать виртуальное окружение**
 ```bash
 python -m venv venv
