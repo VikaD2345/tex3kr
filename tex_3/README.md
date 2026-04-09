@@ -1,123 +1,104 @@
-# Контрольная работа №3 — Безопасность FastAPI
+# FastAPI Security — КР №3
 
-Реализация системы аутентификации и авторизации в FastAPI с поддержкой JWT, ролевого доступа (RBAC) и защиты документации.
+> Система аутентификации и авторизации на FastAPI: JWT-токены, ролевая модель доступа (RBAC) и защита Swagger-документации.
 
+---
 
-## Установка и запуск
+## Быстрый старт
 
-### 1. Клонирование репозитория
-
+**Клонировать репозиторий**
 ```bash
-git clone <https://github.com/AGUGIs/TRSP_kr3_chelyshev>
+git clone https://github.com/AGUGIs/TRSP_kr3_chelyshev
 ```
-### 2. Создание виртуального окружения
-
+**Создать и активировать виртуальное окружение**
 ```bash
 python -m venv venv
 .\venv\Scripts\activate
 ```
-### 3. Установка зависимостей
-
+**Поставить зависимости**
 ```bash
 pip install -r requirements.txt
 ```
-### 4. Настройка переменных окружения
-
+**Скопировать файл с переменными окружения**
 ```bash
 copy .env.example .env
 ```
-5. Запуск приложения
-
+**Запустить сервер**
 ```bash
 uvicorn main:app --reload
 ```
 
+---
 
-## Тестирование эндпоинтов
+## Примеры запросов
 
-### 1. Базовая аутентификация (Задание 6.1)
-
+#### Базовая аутентификация *(Задание 6.1)*
 ```bash
-# Успешный вход
-curl -u admin:secret http://localhost:8000/login-basic
-
-# Неверные данные (вернёт 401)
-curl -u wrong:wrong http://localhost:8000/login-basic
+curl -u admin:secret http://localhost:8000/login-basic        # 200 OK
+curl -u wrong:wrong  http://localhost:8000/login-basic        # 401 Unauthorized
 ```
-### 2. Регистрация и вход с хешированием (Задание 6.2)
-
+#### Регистрация и вход с хешированием *(Задание 6.2)*
 ```bash
-# Регистрация нового пользователя
+# Регистрация
 curl -X POST http://localhost:8000/register \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"alice\",\"password\":\"securepass123\"}"
-
-# Вход с проверкой пароля
+# Вход
 curl -u alice:securepass123 http://localhost:8000/login
 ```
-### 3. JWT аутентификация (Задание 6.4-6.5)
-
+#### JWT-аутентификация *(Задания 6.4–6.5)*
 ```bash
-# Получение JWT токена
+# Получить токен
 curl -X POST http://localhost:8000/login-jwt \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"alice\",\"password\":\"securepass123\"}"
-
-# Доступ к защищённому ресурсу (замените YOUR_TOKEN)
+# Обратиться к защищённому ресурсу
 curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:8000/protected_resource
 ```
-### 4. CRUD операции с Todo (Задание 8.2)
-
+#### CRUD — задачи Todo *(Задание 8.2)*
 ```bash
-# Создание задачи
+# Создать
 curl -X POST http://localhost:8000/todos \
   -H "Content-Type: application/json" \
   -d "{\"title\":\"Купить молоко\",\"description\":\"2 литра\"}"
-
-# Получить все задачи
+# Все задачи
 curl http://localhost:8000/todos
-
-# Получить задачу по ID
+# По ID
 curl http://localhost:8000/todos/1
-
-# Обновить задачу
+# Обновить
 curl -X PUT http://localhost:8000/todos/1 \
   -H "Content-Type: application/json" \
   -d "{\"completed\":true}"
-
-# Удалить задачу
+# Удалить
 curl -X DELETE http://localhost:8000/todos/1
 ```
-### 5. Ролевой доступ (RBAC) (Задание 7.1)
-
+#### Ролевой доступ RBAC *(Задание 7.1)*
 ```bash
-# Доступ к пользовательской зоне
-curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:8000/user-area
-
-# Доступ к админ-панели (требуется роль admin)
-curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8000/admin-panel
+curl -H "Authorization: Bearer YOUR_TOKEN"  http://localhost:8000/user-area    # для всех
+curl -H "Authorization: Bearer ADMIN_TOKEN" http://localhost:8000/admin-panel  # только admin
 ```
+
+---
 
 ## Документация API
-В режиме DEV документация доступна по адресам:
-Swagger UI: http://127.0.0.1:8000/docs
-(требуется базовая аутентификация: admin / secure_docs_pass)
-ReDoc: отключён
+
+Доступна **только в режиме DEV**:
+
+| Интерфейс  | URL                        | Доступ                                   |
+|------------|----------------------------|------------------------------------------|
+| Swagger UI | http://127.0.0.1:8000/docs | Basic Auth: `admin` / `secure_docs_pass` |
+| ReDoc      | —                          | отключён                                 |
+
+---
 
 ## Переменные окружения
-```bash
-# Режим работы: DEV или PROD
-MODE=DEV
 
-# Данные для защиты документации (только DEV)
-DOCS_USER=admin
-DOCS_PASSWORD=secure_docs_pass
-
-# Секретный ключ для JWT
-JWT_SECRET=change_this_in_production_please
-JWT_ALGORITHM=HS256
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-# База данных
-DATABASE_URL=sqlite:///./control_work.db
-```
+| Переменная                        | Значение по умолчанию              | Описание                          |
+|-----------------------------------|------------------------------------|-----------------------------------|
+| `MODE`                            | `DEV`                              | Режим запуска (`DEV` / `PROD`)    |
+| `DOCS_USER`                       | `admin`                            | Логин для доступа к документации  |
+| `DOCS_PASSWORD`                   | `secure_docs_pass`                 | Пароль для доступа к документации |
+| `JWT_SECRET`                      | `change_this_in_production_please` | Секретный ключ JWT                |
+| `JWT_ALGORITHM`                   | `HS256`                            | Алгоритм подписи токена           |
+| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | `30`                               | Время жизни токена (минуты)       |
+| `DATABASE_URL`                    | `sqlite:///./control_work.db`      | Строка подключения к БД           |
